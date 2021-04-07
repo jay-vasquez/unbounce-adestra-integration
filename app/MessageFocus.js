@@ -13,7 +13,7 @@ class MessageFocus{
     }
 
     async start(req) {
-        let body = JSON.parse(JSON.parse(req['data.json']));
+        let body = JSON.parse(req['data.json']);
         let newContact = await this.createContact(body);
         await this.addList(newContact);
         let response = await this.sendSingle(newContact);
