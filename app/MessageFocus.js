@@ -13,12 +13,13 @@ class MessageFocus{
     }
 
     async start(req) {
+        
         // let newContact = await this.createContact(req);
         // await this.addList(newContact);
         // let response = await this.sendSingle(newContact);
         // return response;
-
-        return 'OK';
+        console.log(req)
+        return req;
     }
 
     async createContact(body) {
