@@ -6,10 +6,8 @@ export default async (req, res) => {
   let messageFocus = new MessageFocus();
   await form.parse(req, async (err, fields, files) => {
     if (err) {
-      console.log(err)
       return err;
     }
-    console.log(fields);
     let response = await messageFocus.start(fields)
 
     res.statusCode = 200
