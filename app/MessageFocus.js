@@ -13,13 +13,10 @@ class MessageFocus{
     }
 
     async start(req) {
-        
-        // let newContact = await this.createContact(req);
-        // await this.addList(newContact);
-        // let response = await this.sendSingle(newContact);
-        // return response;
-        console.log(req)
-        return req;
+        let newContact = await this.createContact(req);
+        await this.addList(newContact);
+        let response = await this.sendSingle(newContact);
+        return response;
     }
 
     async createContact(body) {
@@ -28,10 +25,9 @@ class MessageFocus{
             response = await this.instance.post(`/contacts`, {
                 table_id: parseInt(process.env.ADESTRA_TABLE_ID),
                 contact_data: {
-                    email: `john.joseph.vasquez@rhythmagency.com`,
-                    first_name: 'Jayjay',
-                    last_name: 'Vasquez',
-                    title: 'Dev',
+                    email: body.email,
+                    first_name: body.first_name,
+                    last_name: body.last_name,
                 }
             })
         } catch (err) {
