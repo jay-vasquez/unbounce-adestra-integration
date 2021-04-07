@@ -13,10 +13,12 @@ class MessageFocus{
     }
 
     async start(req) {
-        let newContact = await this.createContact(req);
-        await this.addList(newContact);
-        let response = await this.sendSingle(newContact);
-        return response;
+        console.log(req)
+        return "ok";
+        // let newContact = await this.createContact(req);
+        // await this.addList(newContact);
+        // let response = await this.sendSingle(newContact);
+        // return response;
     }
 
     async createContact(body) {
@@ -41,7 +43,7 @@ class MessageFocus{
         let response = null;
         try{
             response = await this.instance.post(`/contacts/${contact.id}/lists/${process.env.ADESTRA_LIST_ID}`)
-        } catch (error) {
+        } catch (err) {
             response = { data: err.response.data };
         }
 
