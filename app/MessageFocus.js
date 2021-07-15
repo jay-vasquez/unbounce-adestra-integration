@@ -1,9 +1,9 @@
 import axios from 'axios';
 const instance = null;
 const adestra_details = {
-    table_id = '',
-    campaign_id = '',
-    list_id = ''
+    table_id: '',
+    campaign_id: '',
+    list_id: ''
 };
 
 class MessageFocus{
