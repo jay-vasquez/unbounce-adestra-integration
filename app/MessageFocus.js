@@ -1,10 +1,5 @@
 import axios from 'axios';
 const instance = null;
-const adestra_details = {
-    table_id: '',
-    campaign_id: '',
-    list_id: ''
-};
 
 class MessageFocus{
     constructor() {
@@ -19,13 +14,9 @@ class MessageFocus{
 
     async start(req) {
         let body = JSON.parse(req['data.json']);
-        this.adestra_details.table_id = body.table_id[0];
-        this.adestra_details.campaign_id = body.campaign_id[0];
-        this.adestra_details.list_id = body.list_id[0];
-        
         let newContact = await this.createContact(body);
-        await this.addList(newContact);
-        let response = await this.sendSingle(newContact);
+        await this.addList(newContact, body);
+        let response = await this.sendSingle(newContact, body);
         return response;
     }
 
@@ -33,7 +24,7 @@ class MessageFocus{
         let response = null;
         try{
             response = await this.instance.post(`/contacts`, {
-                table_id: parseInt(this.adestra_details.table_id),
+                table_id: parseInt(body.table_id[0]),
                 contact_data: {
                     email: body.email[0],
                     first_name: body.first_name[0],
@@ -47,10 +38,10 @@ class MessageFocus{
         return response.data;
     }
 
-    async addList(contact) {
+    async addList(contact, body) {
         let response = null;
         try{
-            response = await this.instance.post(`/contacts/${contact.id}/lists/${this.adestra_details.list_id}`)
+            response = await this.instance.post(`/contacts/${contact.id}/lists/${body.list_id[0]}`)
         } catch (err) {
             response = { data: err.response.data };
         }
@@ -58,10 +49,10 @@ class MessageFocus{
         return response.data;
     }
 
-    async sendSingle(contact) {
+    async sendSingle(contact, body) {
         let response = null;
         try{
-            response = await this.instance.post(`/campaigns/${this.adestra_details.campaign_id}/send_single`, {
+            response = await this.instance.post(`/campaigns/${body.campaign_id[0]}/send_single`, {
                 send_single_contact: contact.id,
                 send_single_options: {
                     suppression_info: true
