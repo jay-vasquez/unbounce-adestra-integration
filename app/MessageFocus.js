@@ -16,6 +16,9 @@ class MessageFocus{
         let body = JSON.parse(req['data.json']);
         let newContact = await this.createContact(body);
         await this.addList(newContact, body);
+        if (body.subscribe !== undefined) {
+            await this.subscribeToNewsLetter(newContact, body);
+        }
         let response = await this.sendSingle(newContact, body);
         return response;
     }
@@ -40,8 +43,19 @@ class MessageFocus{
 
     async addList(contact, body) {
         let response = null;
-        try{
+        try {
             response = await this.instance.post(`/contacts/${contact.id}/lists/${body.list_id[0]}`)
+        } catch (err) {
+            response = { data: err.response.data };
+        }
+
+        return response.data;
+    }
+
+    async subscribeToNewsLetter(contact, body) {
+        let response = null;
+        try {
+            response = await this.instance.post(`/contacts/${contact.id}/lists/${body.subscribe_master_list_id[0]}`);
         } catch (err) {
             response = { data: err.response.data };
         }
